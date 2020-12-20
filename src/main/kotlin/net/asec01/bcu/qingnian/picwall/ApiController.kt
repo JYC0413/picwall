@@ -19,17 +19,15 @@ class ApiController {
     @RequestMapping(value = ["/uploadImage.do"], produces = ["application/json; charset=utf-8"])
     @ResponseBody
     fun uploadImage(@RequestHeader headers: HttpHeaders, @RequestParam(value = "file") file: MultipartFile?): String? {
+        val saveFormat = "jpg"
         if (file == null) {
-            return ResponseObject(2, "参数错误(0A)", null).toJson()
+            return ResponseObject(2, "参数错误(0F)", null).toJson()
         }
         //16 * 1024 * 1024 = 16777216
         if (file.size >= 16777216) {
             return ResponseObject(1, "图片大小不能超过16M", null).toJson()
         }
-        val fileName = file.originalFilename
-
-        val suffixName = fileName!!.substring(fileName.lastIndexOf(".")).replace(".", "")
-        val saveFileName = Util.genFileName("upload", "test", suffixName)
+        val saveFileName = Util.genFileName("upload", "test", saveFormat)
         val filePath = getFilesStorePath() + "images/"
         val oriFile: File = File.createTempFile(saveFileName,".tmp")
         try {
@@ -46,8 +44,8 @@ class ApiController {
             targetFile.getParentFile().mkdirs()
         }
         try {
-            Thumbnails.of(oriFile).size(512, 512).toFile(targetFile)
-            return ResponseObject(0, null, null).toJson()
+            return ResponseObject(0, null, ua).toJson()
+            Thumbnails.of(oriFile).size(512, 512).outputFormat(saveFormat).toFile(targetFile)
         } catch (e: UnsupportedFormatException){
             return ResponseObject(1, "图片处理错误(不支持的图片格式)", null).toJson()
         } catch (e: Exception) {
