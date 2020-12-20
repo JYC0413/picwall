@@ -44,7 +44,7 @@ class Util {
                 var hashmap: HashMap<String, String> = HashMap()
                 for (i in l1) {
                     val t = i.split("=")
-                    if (t.size==2){
+                    if (t.size == 2) {
                         hashmap.put(t[0].replace(" ", ""), t[1])
                     }
                 }

@@ -1,6 +1,6 @@
 package net.asec01.bcu.qingnian.picwall;
 
-public class ResponseObject extends BaseObject{
+public class ResponseObject extends BaseObject {
     Integer status = 0;
     String message = "";
     Object obj;

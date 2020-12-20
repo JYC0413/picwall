@@ -8,12 +8,12 @@ public class BaseObject {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
 
-    public String toJson(){
+    public String toJson() {
         return toString();
     }
 

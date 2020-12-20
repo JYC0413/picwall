@@ -1,6 +1,6 @@
 package net.asec01.bcu.qingnian.picwall;
 
-public class PicObject extends BaseObject{
+public class PicObject extends BaseObject {
     Integer id;
     String filename;
     String session;
@@ -32,7 +32,7 @@ public class PicObject extends BaseObject{
         this.checked = checked;
     }
 
-    public void removeSensitiveInfo(){
+    public void removeSensitiveInfo() {
         this.session = null;
         this.useragent = null;
     }

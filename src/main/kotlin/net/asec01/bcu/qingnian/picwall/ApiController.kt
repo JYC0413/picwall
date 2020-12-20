@@ -28,7 +28,11 @@ class ApiController {
         if (file == null) {
             return ResponseObject(2, "参数错误(0F)", null).toJson()
         }
-        val sessionId = Util.getCookie(headers)?.getValue("zzsession") ?: return ResponseObject(2, "参数错误(0S)", null).toJson()
+        val sessionId = Util.getCookie(headers)?.getValue("zzsession") ?: return ResponseObject(
+            2,
+            "参数错误(0S)",
+            null
+        ).toJson()
         val ua = headers["user-agent"]?.get(0) ?: return ResponseObject(2, "参数错误(0U)", null).toJson()
         //16 * 1024 * 1024 = 16777216
         if (file.size >= 16777216) {
