@@ -32,5 +32,10 @@ class Util {
             var rand = UUID.randomUUID().toString().split("-")[4]
             return type + "_" + custom + "_" + System.currentTimeMillis().toString() + "_" + rand + "." + suffix
         }
+
+        fun getRandom(min: Int, max: Int): Int {
+            return (min..max).random()
+        }
+
     }
 }

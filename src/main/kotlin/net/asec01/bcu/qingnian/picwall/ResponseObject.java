@@ -9,6 +9,11 @@ public class ResponseObject extends BaseObject{
         this.obj = obj;
     }
 
+    public ResponseObject(Integer status, String message) {
+        this.status = status;
+        this.message = message;
+    }
+
     public ResponseObject(Integer status, String message, Object obj) {
         this.status = status;
         this.message = message;

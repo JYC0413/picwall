@@ -53,4 +53,19 @@ class ApiController {
             return ResponseObject(1, "图片处理错误(${e.message})", null).toJson()
         }
     }
+
+    @RequestMapping(value = ["/getAll.do"], produces = ["application/json; charset=utf-8"])
+    @ResponseBody
+    fun getAll(): String {
+        return ResponseObject(apiService.getAllPic()).toJson()
+    }
+
+    @RequestMapping(value = ["/getRand.do"], produces = ["application/json; charset=utf-8"])
+    @ResponseBody
+    fun getRand(count: Int?): String {
+        if (count == null){
+            return ResponseObject(1,"参数错误(RC)").toJson()
+        }
+        return ResponseObject(apiService.getRandomPic(count)).toJson()
+    }
 }
