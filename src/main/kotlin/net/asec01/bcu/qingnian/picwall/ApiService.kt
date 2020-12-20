@@ -38,7 +38,7 @@ class ApiService {
     fun getRandomPic(count: Int): List<PicObject?> {
 //    fun getRandomPic(count: Int): String {
         val maxCount = 50;
-        var sql = "SELECT `id` FROM `picwall` WHERE `checked` = 0"
+        var sql = "SELECT `id` FROM `picwall` WHERE `checked` = 1"
         val listForAllId = jdbcTemplate!!.query(sql, PicObjectIdMapper()) as MutableList<Int>
         var fCount = count
         if (fCount > maxCount) {
