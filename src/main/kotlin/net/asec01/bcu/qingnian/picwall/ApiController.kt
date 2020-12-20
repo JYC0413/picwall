@@ -1,6 +1,8 @@
 package net.asec01.bcu.qingnian.picwall
 
 import net.asec01.bcu.qingnian.picwall.Util.Companion.getFilesStorePath
+import net.coobird.thumbnailator.Thumbnails
+import net.coobird.thumbnailator.tasks.UnsupportedFormatException
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestHeader
@@ -16,24 +18,41 @@ import java.io.IOException
 class ApiController {
     @RequestMapping(value = ["/uploadImage.do"], produces = ["application/json; charset=utf-8"])
     @ResponseBody
-    fun uploadImage(@RequestHeader headers: HttpHeaders, @RequestParam(value = "file") file: MultipartFile): String? {
+    fun uploadImage(@RequestHeader headers: HttpHeaders, @RequestParam(value = "file") file: MultipartFile?): String? {
+        if (file == null) {
+            return ResponseObject(2, "参数错误(0A)", null).toJson()
+        }
+        //16 * 1024 * 1024 = 16777216
+        if (file.size >= 16777216) {
+            return ResponseObject(1, "图片大小不能超过16M", null).toJson()
+        }
         val fileName = file.originalFilename
+
         val suffixName = fileName!!.substring(fileName.lastIndexOf(".")).replace(".", "")
         val saveFileName = Util.genFileName("upload", "test", suffixName)
-        var filePath = getFilesStorePath() + "images/"
-        val dest = File(filePath + saveFileName)
-        if (!dest.getParentFile().exists()) {
-            dest.getParentFile().mkdirs()
-        }
+        val filePath = getFilesStorePath() + "images/"
+        val oriFile: File = File.createTempFile(saveFileName,".tmp")
         try {
-            file.transferTo(dest)
-            return ResponseObject(0, null, null).toJson()
+            file.transferTo(oriFile)
         } catch (e: IllegalStateException) {
-            return ResponseObject(1, e.message, null).toJson()
             e.printStackTrace()
+            return ResponseObject(2, e.message, null).toJson()
         } catch (e: IOException) {
             e.printStackTrace()
             return ResponseObject(2, e.message, null).toJson()
+        }
+        val targetFile = File(filePath + saveFileName)
+        if (!targetFile.getParentFile().exists()) {
+            targetFile.getParentFile().mkdirs()
+        }
+        try {
+            Thumbnails.of(oriFile).size(512, 512).toFile(targetFile)
+            return ResponseObject(0, null, null).toJson()
+        } catch (e: UnsupportedFormatException){
+            return ResponseObject(1, "图片处理错误(不支持的图片格式)", null).toJson()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return ResponseObject(1, "图片处理错误(${e.message})", null).toJson()
         }
     }
 }
