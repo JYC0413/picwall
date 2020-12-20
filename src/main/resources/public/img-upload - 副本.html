@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <title>图片上传</title>
+    <link rel="stylesheet" href="./css/weui.css"/>
+    <link rel="stylesheet" href="./css/example.css"/>
+        <script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+    <script type="text/javascript" src="/h5/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+    <div class="test">
+<div class = "weui_uploader" style="background-color: white;">
+     <div  class = "weui_uploader_hd weui_cell" >
+         <div  class = "weui_cell_bd weui_cell_primary" >图片上传</div >
+     </div >
+     <div  class = "weui_uploader_bd" >
+        <img src="./images/pic_article.png" alt="">
+         <ul  class = "weui_uploader_files">
+             <!-- 预览图插入到这 -->  </ul >
+        <div class="weui-uploader__bd">  
+                            <ul class="weui-uploader__files" id="uploaderFiles">  
+                                  
+                            </ul>  
+                            <div style="width: 24.5%;" style="height: 24.5%;" class="weui-uploader__input-box">  
+                                <input style id="uploaderInput" class="weui-uploader__input zjxfjs_file" type="file" accept="image/*" multiple="" capture="camera">  
+                            </div>  
+                        </div>
+     </div >
+</div>
+</div>
+
+<div><a class="down" href="" download="downImg">下载</a>
+</div>
+<script>
+    //直接选择要截图的dom，就能截图，但是因为canvas的原因，生成的图片模糊
+    //html2canvas(document.querySelector('div')).then(function(canvas) {
+    //    document.body.appendChild(canvas);
+    //});
+    //创建一个新的canvas
+    var canvas2 = document.createElement("canvas");
+    let
+    _canvas = document.querySelector('div');
+    var w = parseInt(window.getComputedStyle(_canvas).width);
+    var h = parseInt(window.getComputedStyle(_canvas).height);
+    //将canvas画布放大若干倍，然后盛放在较小的容器内，就显得不模糊了
+    canvas2.width = w * 2;
+    canvas2.height = h * 2;
+    canvas2.style.width = w + "px";
+    canvas2.style.height = h + "px";
+    //可以按照自己的需求，对context的参数修改,translate指的是偏移量
+    //  var context = canvas.getContext("2d");
+    //  context.translate(0,0);
+    var context = canvas2.getContext("2d");
+    context.scale(2, 2);
+    html2canvas(document.querySelector('div'), { canvas: canvas2 }).then(function(canvas) {
+        //document.body.appendChild(canvas);
+        //canvas转换成url，然后利用a标签的download属性，直接下载，绕过上传服务器再下载
+        document.querySelector(".down").setAttribute('href', canvas.toDataURL());
+    });
+</script>
+ 
+ 
+<script language="javascript">
+    //这是另一种写法
+    $(function () {
+        $(".down2").click(function () {
+            html2canvas($(".test")).then(function (canvas) {
+                var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); // 获取生成的图片的url
+                window.location.href = imgUri; // 下载图片
+            });
+ 
+ 
+            //html2canvas($('.tongxingzheng_bg'), {
+            //    onrendered: function (canvas) {
+            //        var data = canvas.toDataURL("image/png");//生成的格式
+            //        //data就是生成的base64码啦
+            //        alert(data);
+            //    }
+            //});
+        });
+    });
+</script>
+    <script src="./js/zepto.min.js"></script>
+    <script src="./js/image.js"></script>
+    <script src="./js/weui.js"></script>
+        </body>
+        </html>

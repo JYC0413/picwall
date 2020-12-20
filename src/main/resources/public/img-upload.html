@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <title>图片上传</title>
+    <link rel="stylesheet" href="./css/weui.css"/>
+    <script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.js"></script>
+    <script type="text/javascript" src="/h5/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+        <div class="test">
+<div class="weui-gallery" id="gallery">  
+            <span class="weui-gallery__img" id="galleryImg"></span>  
+            <div class="weui-gallery__opr">  
+                <a href="javascript:" class="weui-gallery__del">  
+                    <i class="weui-icon-delete weui-icon_gallery-delete" style="margin-bottom: 50px"></i>  
+                </a>  
+            </div>  
+        </div>  
+	<div class="weui-cells weui-cells_form">  
+            <div class="weui-cell">  
+                <div class="weui-cell__bd">  
+                    <div class="weui-uploader">  
+                        <div class="weui-uploader__hd">  
+                            <p class="weui-uploader__title">图片上传：</p>  
+                        </div>  
+                        <div class="weui-uploader__bd">  
+                            <ul class="weui-uploader__files" id="uploaderFiles">  
+                                  
+                            </ul>  
+                            <div class="weui-uploader__input-box">  
+                                <input id="uploaderInput" class="weui-uploader__input zjxfjs_file" type="file" accept="image/*" multiple="" capture="camera">  
+                            </div>  
+                        </div>  
+                    </div>  
+                </div>  
+            </div>  
+        </div> 
+    </div>
+        <div><a class="down" href="" download="downImg">下载</a>
+</div>
+<script language="javascript">
+    $(function () {
+        $(".down2").click(function () {
+            html2canvas($(".test")).then(function (canvas) {
+                var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); // 获取生成的图片的url
+                window.location.href = imgUri; // 下载图片
+            });
+ 
+ 
+            //html2canvas($('.tongxingzheng_bg'), {
+            //    onrendered: function (canvas) {
+            //        var data = canvas.toDataURL("image/png");//生成的格式
+            //        //data就是生成的base64码啦
+            //        alert(data);
+            //    }
+            //});
+        });
+    });
+</script>
+        <script type="text/javascript" class="uploader js_show">
+    $(function(){
+        var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
+            $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
+            $uploaderInput = $("#uploaderInput"),
+            $uploaderFiles = $("#uploaderFiles")
+            ;
+
+        $uploaderInput.on("change", function(e){
+            var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
+            for (var i = 0, len = files.length; i < len; ++i) {
+                var file = files[i];
+
+                if (url) {
+                    src = url.createObjectURL(file);
+                } else {
+                    src = e.target.result;
+                }
+
+                $uploaderFiles.append($(tmpl.replace('#url#', src)));
+            }
+        });
+        $uploaderFiles.on("click", "li", function(){
+            $galleryImg.attr("style", this.getAttribute("style"));
+            $gallery.fadeIn(100);
+        });
+        $gallery.on("click", function(){
+            $gallery.fadeOut(100);
+        });
+    });</script>
+    <script src="./weui.js"></script>
+        </body>
+        </html>
