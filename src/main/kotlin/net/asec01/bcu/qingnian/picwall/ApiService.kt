@@ -51,8 +51,11 @@ class ApiService {
         for (i in 0 until fCount) {
             newList.add(listForAllId.removeAt(Util.getRandom(0, listForAllId.size - 1)))
         }
-        val nums = newList.joinToString(",")
-        sql = "SELECT * FROM `picwall` WHERE `id` IN ($nums)"
-        return jdbcTemplate!!.query(sql, PicObjectMapper(true)) as List<PicObject?>
+        if (newList.size > 0) {
+            val nums = newList.joinToString(",")
+            sql = "SELECT * FROM `picwall` WHERE `id` IN ($nums)"
+            return jdbcTemplate!!.query(sql, PicObjectMapper(true)) as List<PicObject?>
+        }
+        return listOf<PicObject>()
     }
 }
