@@ -5,6 +5,7 @@ import net.coobird.thumbnailator.Thumbnails
 import net.coobird.thumbnailator.tasks.UnsupportedFormatException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
 
 @Controller
@@ -81,5 +83,23 @@ class ApiController {
             return ResponseObject(1,"参数错误(RC)").toJson()
         }
         return ResponseObject(apiService.getRandomPic(count)).toJson()
+    }
+
+    @RequestMapping(value = ["/getImage.do"], produces = [MediaType.IMAGE_JPEG_VALUE])
+    @ResponseBody
+    fun getImage(fn: String?): ByteArray? {
+        try {
+            val file = File(Util.getFilesSafePath("images", fn!!))
+            val inputStream = FileInputStream(file)
+            val bytes = ByteArray(inputStream.available())
+            inputStream.read(bytes, 0, inputStream.available())
+            return bytes
+        } catch (e: Exception) {
+            val file = File(Util.getFilesSafePath("images", "default.png"))
+            val inputStream = FileInputStream(file)
+            val bytes = ByteArray(inputStream.available())
+            inputStream.read(bytes, 0, inputStream.available())
+            return bytes
+        }
     }
 }
