@@ -11,7 +11,7 @@
   <div style="width: 90%;margin: 0 auto;background: url(image/screen.png) no-repeat;background-size:100% 100%;">
     <div class="mdui-container">
       <p></p>
-      <div class="mdui-row mdui-row-gapless" style="width: 100%;padding-left: 6%;padding-top: 9.5%;">
+      <div class="mdui-row mdui-row-gapless" style="width: 100%;padding-left: 6%;padding-top: 9.5%;line-height:0;">
         <div class="mdui-col-xs-1 mdui-col-offset-xs-1" id="1"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-1" id="2"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-1" id="3"><img style="width: 100%" src="image/loading.jpg"></div>
@@ -19,7 +19,7 @@
         <div class="mdui-col-xs-1" id="5"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-1" id="6"><img style="width: 100%" src="image/loading.jpg"></div>
       </div>
-      <div class="mdui-row mdui-row-gapless" style="width: 100%;padding-left: 6%;">
+      <div class="mdui-row mdui-row-gapless" style="width: 100%;padding-left: 6%;line-height:0;">
         <div class="mdui-col-xs-1" id="7"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-1" id="8"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-1" id="9"><img style="width: 100%" src="image/loading.jpg"></div>
@@ -31,12 +31,12 @@
         <div class="mdui-col-xs-1" id="15"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-1" id="16"><img style="width: 100%" src="image/loading.jpg"></div>
       </div>
-      <div class="mdui-row mdui-row-gapless" style="width: 100%;padding-left: 6%;">
-        <div class="mdui-col-xs-1" id="17"><img style="width: 100%" src="image/loading.jpg"></div>
+      <div class="mdui-row mdui-row-gapless" style="width: 100%;padding-left: 6%;line-height:0;">
+        <div class="mdui-col-xs-1" id="17"><img style="width: 100%" src="image/loading.jpg"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-3" id="18"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-3" id="19"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-3" id="20"><img style="width: 100%" src="image/loading.jpg"></div>
-        <div class="mdui-col-xs-1" id="21"><img style="width: 100%" src="image/loading.jpg"></div>
+        <div class="mdui-col-xs-1" id="21"><img style="width: 100%" src="image/loading.jpg"><img style="width: 100%" src="image/loading.jpg"></div>
       </div>
       <!--
       <div class="mdui-row mdui-row-gapless">
@@ -44,11 +44,11 @@
         <div class="mdui-col-xs-1 mdui-col-offset-xs-9" id="23"><img style="width: 100%" src="image/loading.jpg"></div>
       </div>
       -->
-      <div class="mdui-row mdui-row-gapless" style="width: 100%;padding-left: 6%;">
+      <div class="mdui-row mdui-row-gapless" style="width: 100%;padding-left: 6%;line-height:0;">
         <div class="mdui-col-xs-1 mdui-col-offset-xs-2" id="24"><img style="width: 100%" src="image/loading.jpg"></div>
-        <div class="mdui-col-xs-1" id="25"><img style="width: 100%" src="image/loading.jpg"></div>
+        <div class="mdui-col-xs-1" id="25"><img style="width: 100%" src="image/loading.jpg"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-3" id="26"><img style="width: 100%" src="image/loading.jpg"></div>
-        <div class="mdui-col-xs-1" id="27"><img style="width: 100%" src="image/loading.jpg"></div>
+        <div class="mdui-col-xs-1" id="27"><img style="width: 100%" src="image/loading.jpg"><img style="width: 100%" src="image/loading.jpg"></div>
         <div class="mdui-col-xs-1" id="28"><img style="width: 100%" src="image/loading.jpg"></div>
       </div>
       <!--
@@ -57,7 +57,7 @@
         <div class="mdui-col-xs-1" id="30"><img style="width: 100%" src="image/loading.jpg">32</div>
       </div>
       -->
-      <div class="mdui-row mdui-row-gapless" style="width: 100%;padding-left: 6%;padding-bottom: 8%;">
+      <div class="mdui-row mdui-row-gapless" style="width: 100%;padding-left: 6%;padding-bottom: 8%;line-height:0;">
         <div class="mdui-col-xs-1 mdui-col-offset-xs-5" id="31"><img style="width: 100%" src="image/loading.jpg"></div>
       </div>
     </div>
@@ -65,5 +65,53 @@
   <div style="vertical-align: bottom;"><img style="width: 100%" src="image/control.png"></div>
   </div>
   <script type="text/javascript" src="js/mdui.min.js"></script>
+  <script type="text/javascript">
+var url = 'http://127.0.0.1:8080/api/getRand.do?count=30',
+        murl = 'http://39.106.31.27',
+
+    window.onload = getNewMsg(); 
+
+    function getNewMsg() {
+        $.ajax({
+            url: url,
+            dataType: "json", //请求格式
+            headers: {
+            },
+            success: (res) => {
+                console.log(res)
+                let json2 = JSON.stringify(res.data);
+                $("#head").append('<div class="info_table" id="txtable"></div>')
+                let result = res.data
+                for (let i = 0; i < result.length; i++) {
+                    let item = result[i]
+                    let img = murl + result[i].img_path
+                    var zztime = getTimeFormat(item.updateTime);
+                    let updateTime = '<span>' + zztime + '</span>'
+                    let path = 
+                        '<li class="widget">'
+                            + '<div class="cover overlay overlay-hover">'
+                                + '<img class="cover-image overlay-scale" src="'+ img +'" style= "height:300px;" />'
+                                + '<div class="overlay-panel overlay-fade overlay-background overlay-background-fixed text-center vertical-align">'
+                                    + '<div class="vertical-align-middle">'
+                                        + '<div class="widget-time widget-divider">'
+                                               +zztime
+                                        + '</div>'
+                                        + '<h3 class="widget-title margin-bottom-20 font-weight-300">'
+                                           + item.origincertification_title
+                                        + '</h3>'
+                                        + '<button type="button" class="btn btn-outline btn-squared btn-inverse met-img-showbtn" data-imglist="'+ item.info +'*'+ img +'|">'
+                                           + '浏览'
+                                        + '</button>'
+                                    + '</div>'
+                                + '</div>'
+                            + '</div>'
+                        + '</li>';
+
+                    $(".path").append(path)
+                }
+            }
+        })
+    }
+  </script>
 </body>
 </html>
