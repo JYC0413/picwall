@@ -40,7 +40,7 @@
     </style>
 </head>
 <body class="body-img">
-<div class="body-img1">
+<div class="body-img1" id="capture">
     <div class="body-img2">
         <div class="mdui-container">
             <p></p>
@@ -152,6 +152,7 @@
     </div>
 </div>
 <script type="text/javascript" src="js/mdui.min.js"></script>
+<script type="text/javascript" src="js/html2canvas.min.js"></script>
 <script type="text/javascript">
     var $ = mdui.$;
 
@@ -175,6 +176,15 @@
                     }
                 }
             }
+        });
+    }
+
+    function getScreenshot() {
+        html2canvas(document.getElementById('capture')).then(function (canvas) {
+            canvas.toBlob(function (blob) {
+                var url = URL.createObjectURL(blob);
+                mdui.alert('<div style="width: 100%; height: 256px"><img class="mdui-img-fluid" src="' + url + '" alt="请长按保存" /></div>', '请长按保存');
+            });
         });
     }
 
