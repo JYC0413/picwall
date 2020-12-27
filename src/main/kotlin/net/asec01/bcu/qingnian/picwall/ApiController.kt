@@ -2,6 +2,7 @@ package net.asec01.bcu.qingnian.picwall
 
 import net.asec01.bcu.qingnian.picwall.Util.Companion.getFilesStorePath
 import net.coobird.thumbnailator.Thumbnails
+import net.coobird.thumbnailator.geometry.Positions
 import net.coobird.thumbnailator.tasks.UnsupportedFormatException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+import javax.imageio.ImageIO
 
 @Controller
 @RequestMapping(value = ["/api"])
@@ -27,6 +29,7 @@ class ApiController {
     @ResponseBody
     fun uploadImage(@RequestHeader headers: HttpHeaders, @RequestParam(value = "file") file: MultipartFile?): String? {
         val saveFormat = "jpg"
+        val saveSize = 512
         if (file == null) {
             return ResponseObject(2, "参数错误(0F)", null).toJson()
         }
@@ -57,7 +60,16 @@ class ApiController {
             targetFile.getParentFile().mkdirs()
         }
         try {
-            Thumbnails.of(oriFile).size(512, 512).outputFormat(saveFormat).toFile(targetFile)
+            val bim = ImageIO.read(oriFile)
+            var oriMinSize = bim.getWidth()
+            if (oriMinSize > bim.getHeight()) {
+                oriMinSize = bim.getHeight()
+            }
+            Thumbnails.of(oriFile)
+                .sourceRegion(Positions.CENTER, oriMinSize, oriMinSize)
+                .size(saveSize, saveSize)
+                .outputFormat(saveFormat)
+                .toFile(targetFile)
         } catch (e: UnsupportedFormatException){
             return ResponseObject(1, "图片处理错误(不支持的图片格式)", null).toJson()
         } catch (e: Exception) {
@@ -95,7 +107,7 @@ class ApiController {
             inputStream.read(bytes, 0, inputStream.available())
             return bytes
         } catch (e: Exception) {
-            val file = File(Util.getFilesSafePath("images", "default.png"))
+            val file = File(Util.getFilesSafePath("images", "default.jpg"))
             val inputStream = FileInputStream(file)
             val bytes = ByteArray(inputStream.available())
             inputStream.read(bytes, 0, inputStream.available())

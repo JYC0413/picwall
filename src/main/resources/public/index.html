@@ -105,47 +105,82 @@
                     <img class="img-set" id="img-19" src="image/loading.jpg">
                 </div>
                 <div class="mdui-col-xs-3">
-                    <img class="img-set" id="img-20" src="image/loading.jpg">
+                    <img class="img-set" id="img-uploaded" src="image/loading.jpg">
                 </div>
                 <div class="mdui-col-xs-3">
-                    <img class="img-set" id="img-21" src="image/loading.jpg">
+                    <img class="img-set" id="img-20" src="image/loading.jpg">
                 </div>
                 <div class="mdui-col-xs-1">
+                    <img class="img-set" id="img-21" src="image/loading.jpg">
                     <img class="img-set" id="img-22" src="image/loading.jpg">
-                    <img class="img-set" id="img-23" src="image/loading.jpg">
                 </div>
             </div>
             <div class="mdui-row mdui-row-gapless row-set">
                 <div class="mdui-col-xs-1 mdui-col-offset-xs-2">
-                    <img class="img-set" id="img-24" src="image/loading.jpg">
+                    <img class="img-set" id="img-23" src="image/loading.jpg">
                 </div>
                 <div class="mdui-col-xs-1">
+                    <img class="img-set" id="img-24" src="image/loading.jpg">
                     <img class="img-set" id="img-25" src="image/loading.jpg">
-                    <img class="img-set" id="img-26" src="image/loading.jpg">
                 </div>
                 <div class="mdui-col-xs-3">
+                    <img class="img-set" id="img-26" src="image/loading.jpg">
+                </div>
+                <div class="mdui-col-xs-1">
                     <img class="img-set" id="img-27" src="image/loading.jpg">
-                </div>
-                <div class="mdui-col-xs-1">
                     <img class="img-set" id="img-28" src="image/loading.jpg">
-                    <img class="img-set" id="img-29" src="image/loading.jpg">
                 </div>
                 <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-30" src="image/loading.jpg">
+                    <img class="img-set" id="img-29" src="image/loading.jpg">
                 </div>
             </div>
             <div class="mdui-row mdui-row-gapless"
                  style="width: 100%;padding-left: 6%;padding-bottom: 8%;line-height:0;">
                 <div class="mdui-col-xs-1 mdui-col-offset-xs-5">
-                    <img class="img-set" id="img-31" src="image/loading.jpg">
+                    <img class="img-set" id="img-30" src="image/loading.jpg">
                 </div>
             </div>
         </div>
     </div>
-    <div style="vertical-align: bottom;">
+    <div style="vertical-align: bottom;" onclick="loadImage()">
         <img class="img-set" src="image/control.png">
+    </div>
+    <div style="display: none">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input id="uploadfile" type="file" name="file"/>
+        </form>
     </div>
 </div>
 <script type="text/javascript" src="js/mdui.min.js"></script>
+<script type="text/javascript">
+    var $ = mdui.$;
+
+    function loadImage() {
+        $.ajax({
+            method: 'POST',
+            url: '/api/getRand.do',
+            data: {
+                "count": 30
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data["status"] === 0) {
+                    for (var i in data["obj"]) {
+                        console.log(i, ":", data["obj"][i])
+                        var id = "#img-" + (parseInt(i) + 1)
+                        var imgSrc = "/api/getImage.do?fn=" + data["obj"][i]["filename"]
+                        $(id).attr("src", imgSrc);
+                        console.log("set", id, "to", imgSrc)
+                    }
+                }
+            }
+        });
+    }
+
+    window.onload = function () {
+        loadImage()
+    }
+</script>
 </body>
 </html>
