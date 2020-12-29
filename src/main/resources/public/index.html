@@ -105,7 +105,7 @@
                     <img class="img-set" id="img-19" src="image/loading.jpg">
                 </div>
                 <div class="mdui-col-xs-3">
-                    <img class="img-set" id="img-uploaded" src="image/loading.jpg">
+                    <a href="#"><img class="img-set" id="img-uploaded" src="image/loading.jpg"></a>
                 </div>
                 <div class="mdui-col-xs-3">
                     <img class="img-set" id="img-20" src="image/loading.jpg">
@@ -162,6 +162,29 @@
             url: '/api/getRand.do',
             data: {
                 "count": 30
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data["status"] === 0) {
+                    for (var i in data["obj"]) {
+                        console.log(i, ":", data["obj"][i])
+                        var id = "#img-" + (parseInt(i) + 1)
+                        var imgSrc = "/api/getImage.do?fn=" + data["obj"][i]["filename"]
+                        $(id).attr("src", imgSrc);
+                        console.log("set", id, "to", imgSrc)
+                    }
+                }
+            }
+        });
+    }
+
+    function uploadImage() {
+        $.ajax({
+            method: 'POST',
+            url: '/api/uploadImage.do',
+            data: {
+                "file": 30
             },
             dataType: "json",
             success: function (data) {
