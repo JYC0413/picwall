@@ -105,7 +105,12 @@
                     <img class="img-set" id="img-19" src="image/loading.jpg">
                 </div>
                 <div class="mdui-col-xs-3">
-                    <a href="#"><img class="img-set" id="img-uploaded" src="image/loading.jpg"></a>
+                    <form id="img-form" enctype="multipart/form-data">
+                        <input id="img-input" name="file" type="file" accept="image/*" style="display: none"/>
+                        <label for="img-input" id="img-set-label">
+                            <a href="#"><img class="img-set" id="img-uploaded" src="image/loading.jpg"></a>
+                        </label>
+                    </form>
                 </div>
                 <div class="mdui-col-xs-3">
                     <img class="img-set" id="img-20" src="image/loading.jpg">
@@ -145,20 +150,65 @@
     <div style="vertical-align: bottom;" onclick="loadImage()">
         <img class="img-set" src="image/control.png">
     </div>
-    <div style="display: none">
-        <form id="uploadForm" enctype="multipart/form-data">
-            <input id="uploadfile" type="file" name="file"/>
-        </form>
-    </div>
 </div>
+<script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/mdui.min.js"></script>
 <script type="text/javascript" src="js/html2canvas.min.js"></script>
 <script type="text/javascript">
-    var $ = mdui.$;
+    // var $ = mdui.$;
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toGMTString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    var randomDic = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+    function generateMixed(n) {
+        var res = "";
+        for (var i = 0; i < n; i++) {
+            var id = Math.ceil(Math.random() * 35);
+            res += randomDic[id];
+        }
+        return res;
+    }
+
+    function genSessionKey() {
+        return generateMixed(32)
+    }
+
+    function zzInit() {
+        if (getCookie("zzsession") === "") {
+            setCookie("zzsession", genSessionKey(), 30)
+        }
+        if (getCookie("oldimg") !== "") {
+            loadImageToBox("#img-uploaded", getCookie("oldimg"))
+        }
+    }
+
+    function loadImageToBox(id, fn) {
+        var imgSrc = "/api/getImage.do?fn=" + fn
+        $(id).attr("src", imgSrc);
+        console.log("set", id, "to", imgSrc)
+    }
 
     function loadImage() {
         $.ajax({
-            method: 'POST',
+            method: 'GET',
             url: '/api/getRand.do',
             data: {
                 "count": 30
@@ -170,9 +220,7 @@
                     for (var i in data["obj"]) {
                         console.log(i, ":", data["obj"][i])
                         var id = "#img-" + (parseInt(i) + 1)
-                        var imgSrc = "/api/getImage.do?fn=" + data["obj"][i]["filename"]
-                        $(id).attr("src", imgSrc);
-                        console.log("set", id, "to", imgSrc)
+                        loadImageToBox(id, data["obj"][i]["filename"])
                     }
                 }
             }
@@ -180,24 +228,26 @@
     }
 
     function uploadImage() {
+        var image = $("#img-input")[0].files[0];
+        var formData = new FormData();
+        formData.append("file", image)
         $.ajax({
-            method: 'POST',
+            type: 'POST',
             url: '/api/uploadImage.do',
-            data: {
-                "file": 30
-            },
-            dataType: "json",
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
             success: function (data) {
                 console.log(data);
                 if (data["status"] === 0) {
-                    for (var i in data["obj"]) {
-                        console.log(i, ":", data["obj"][i])
-                        var id = "#img-" + (parseInt(i) + 1)
-                        var imgSrc = "/api/getImage.do?fn=" + data["obj"][i]["filename"]
-                        $(id).attr("src", imgSrc);
-                        console.log("set", id, "to", imgSrc)
-                    }
+                    console.log("上传成功")
+                    setCookie("oldimg", data["obj"], 60)
+                    loadImageToBox("#img-uploaded", getCookie("oldimg"))
                 }
+            },
+            error: function (data) {
+                console.log(data)
             }
         });
     }
@@ -213,6 +263,13 @@
 
     window.onload = function () {
         loadImage()
+        $("#img-set-label").on("click", function (e) {
+            $("#img-input").trigger("click");
+        })
+        $("#img-input").on("change", function (e) {
+            uploadImage()
+        });
+        zzInit()
     }
 </script>
 </body>

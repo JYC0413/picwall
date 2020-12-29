@@ -33,11 +33,16 @@ class ApiController {
         if (file == null) {
             return ResponseObject(2, "参数错误(0F)", null).toJson()
         }
-        val sessionId = Util.getCookie(headers)?.getValue("zzsession") ?: return ResponseObject(
-            2,
-            "参数错误(0S)",
-            null
-        ).toJson()
+        lateinit var sessionId: String
+        try {
+            sessionId = Util.getCookie(headers)?.getValue("zzsession") ?: return ResponseObject(
+                2, "参数错误(0S)", null
+            ).toJson()
+        } catch (e: java.util.NoSuchElementException) {
+            return ResponseObject(
+                2, "参数错误(0S)", null
+            ).toJson()
+        }
         val ua = headers["user-agent"]?.get(0) ?: return ResponseObject(2, "参数错误(0U)", null).toJson()
         //16 * 1024 * 1024 = 16777216
         if (file.size >= 16777216) {
@@ -45,7 +50,7 @@ class ApiController {
         }
         val saveFileName = Util.genFileName("upload", sessionId, saveFormat)
         val filePath = getFilesStorePath() + "images/"
-        val oriFile: File = File.createTempFile(saveFileName,".tmp")
+        val oriFile: File = File.createTempFile(saveFileName, ".tmp")
         try {
             file.transferTo(oriFile)
         } catch (e: IllegalStateException) {
@@ -70,7 +75,7 @@ class ApiController {
                 .size(saveSize, saveSize)
                 .outputFormat(saveFormat)
                 .toFile(targetFile)
-        } catch (e: UnsupportedFormatException){
+        } catch (e: UnsupportedFormatException) {
             return ResponseObject(1, "图片处理错误(不支持的图片格式)", null).toJson()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -91,8 +96,8 @@ class ApiController {
     @RequestMapping(value = ["/getRand.do"], produces = ["application/json; charset=utf-8"])
     @ResponseBody
     fun getRand(count: Int?): String {
-        if (count == null){
-            return ResponseObject(1,"参数错误(RC)").toJson()
+        if (count == null) {
+            return ResponseObject(1, "参数错误(RC)").toJson()
         }
         return ResponseObject(apiService.getRandomPic(count)).toJson()
     }
