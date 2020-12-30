@@ -146,16 +146,16 @@
         </div>
     </div>
     <div class="mdui-row mdui-row-gapless row-set">
-      <div class="mdui-col-xs-6"> 
-        <div style="vertical-align: bottom;" onclick="getScreenshot()">
-          <img class="img-set" src="image/screen-cut.png">
+        <div class="mdui-col-xs-6">
+            <div style="vertical-align: bottom;" onclick="getScreenshot()">
+                <img class="img-set" src="image/screen-cut.png">
+            </div>
         </div>
-      </div>
-      <div class="mdui-col-xs-6"> 
-        <div style="vertical-align: bottom;" onclick="loadImage()">
-          <img class="img-set" src="image/control.png">
+        <div class="mdui-col-xs-6">
+            <div style="vertical-align: bottom;" onclick="loadImage()">
+                <img class="img-set" src="image/control.png">
+            </div>
         </div>
-      </div>
     </div>
 </div>
 <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -262,19 +262,37 @@
     function getScreenshot() {
         html2canvas(document.getElementById('capture')).then(function (canvas) {
             canvas.toBlob(function (blob) {
-                var url = URL.createObjectURL(blob);
-                mdui.alert('<div style="width: 100%; height: 256px"><img class="mdui-img-fluid" src="' + url + '" alt="请长按保存" /></div>', '请长按保存');
-            });
+                // var url = URL.createObjectURL(blob);
+                let imgfile = new File([blob], 'imgfile.jpg', {type: 'image/jpg'})
+                let formData = new FormData()
+                formData.append('file', imgfile)
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/uploadTempImage.do',
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        console.log(data);
+                        if (data["status"] === 0) {
+                            console.log("上传成功")
+                            let tempimgurl = "/api/getTempImage.do?fn=" + data["obj"]
+                            mdui.alert('<div style="width: 100%; height: 256px"><img class="mdui-img-fluid" src="' + tempimgurl + '" alt="请长按保存" /></div>', '请长按保存');
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                });});
         });
     }
 
-    window.onload = function () {
-        loadImage()
-        $("#img-input").on("change", function (e) {
-            uploadImage()
-        });
-        zzInit()
-    }
+    loadImage()
+    $("#img-input").on("change", function (e) {
+        uploadImage()
+    });
+    zzInit()
 </script>
 </body>
 </html>

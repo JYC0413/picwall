@@ -17,6 +17,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import javax.imageio.ImageIO
+import javax.servlet.http.HttpServletResponse
 
 @Controller
 @RequestMapping(value = ["/api"])
@@ -119,4 +120,66 @@ class ApiController {
             return bytes
         }
     }
+
+    @RequestMapping(value = ["/uploadTempImage.do"], produces = ["application/json; charset=utf-8"])
+    @ResponseBody
+    fun uploadTempImage(@RequestHeader headers: HttpHeaders, @RequestParam(value = "file") file: MultipartFile?): String? {
+        val saveFormat = "jpg"
+        val saveSize = 512
+        if (file == null) {
+            return ResponseObject(2, "参数错误(0F)", null).toJson()
+        }
+        lateinit var sessionId: String
+        try {
+            sessionId = Util.getCookie(headers)?.getValue("zzsession") ?: return ResponseObject(
+                2, "参数错误(0S)", null
+            ).toJson()
+        } catch (e: java.util.NoSuchElementException) {
+            return ResponseObject(
+                2, "参数错误(0S)", null
+            ).toJson()
+        }
+        //16 * 1024 * 1024 = 16777216
+        if (file.size >= 16777216) {
+            return ResponseObject(1, "图片大小不能超过16M", null).toJson()
+        }
+        val saveFileName = Util.genFileName("temp", sessionId, saveFormat)
+        val filePath = getFilesStorePath() + "tempimages/"
+        val dest = File(filePath + saveFileName)
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(dest)
+        } catch (e: IllegalStateException) {
+            return ResponseObject(1, e.message, null).toJson()
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return ResponseObject(1, e.message, null).toJson()
+        }
+        return ResponseObject(0, null, saveFileName).toJson()
+    }
+
+    @RequestMapping(value = ["/getTempImage.do"], produces = [MediaType.IMAGE_JPEG_VALUE])
+    @ResponseBody
+    fun getTempImage(response: HttpServletResponse, fn: String?): ByteArray? {
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + "zz20201230.jpg" + "\"; filename*=utf-8''" + "zz20201230.jpg");
+        try {
+            val file = File(Util.getFilesSafePath("tempimages", fn!!))
+            val inputStream = FileInputStream(file)
+            val bytes = ByteArray(inputStream.available())
+            inputStream.read(bytes, 0, inputStream.available())
+            inputStream.close()
+//            file.delete()
+            return bytes
+        } catch (e: Exception) {
+            val file = File(Util.getFilesSafePath("images", "default.jpg"))
+            val inputStream = FileInputStream(file)
+            val bytes = ByteArray(inputStream.available())
+            inputStream.read(bytes, 0, inputStream.available())
+            return bytes
+        }
+    }
+
 }
