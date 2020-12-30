@@ -228,7 +228,6 @@
     }
 
     function uploadImage() {
-        alert("开始上传")
         var image = $("#img-input")[0].files[0];
         var formData = new FormData();
         formData.append("file", image)
@@ -264,9 +263,6 @@
 
     window.onload = function () {
         loadImage()
-        // $("#img-set-label").on("click", function (e) {
-        //     $("#img-input").trigger("click");
-        // })
         $("#img-input").on("change", function (e) {
             uploadImage()
         });
