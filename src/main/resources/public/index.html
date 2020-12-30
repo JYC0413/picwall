@@ -31,7 +31,6 @@
         .img-set {
             width: 100%;
             height: 100%;
-            border: 5px solid black;
         }
 
         .row-set {
@@ -42,8 +41,8 @@
     </style>
 </head>
 <body class="body-img">
-<div class="body-img1" id="capture">
-    <div class="body-img2">
+<div class="body-img1">
+    <div class="body-img2" id="capture">
         <div class="mdui-container">
             <p></p>
             <div class="mdui-row mdui-row-gapless row-set" style="padding-top: 9.5%;">
@@ -139,16 +138,24 @@
                     <img class="img-set" id="img-29" src="image/loading.jpg">
                 </div>
             </div>
-            <div class="mdui-row mdui-row-gapless"
-                 style="width: 100%;padding-left: 6%;padding-bottom: 8%;line-height:0;">
+            <div class="mdui-row mdui-row-gapless row-set" style="padding-bottom: 8%;">
                 <div class="mdui-col-xs-1 mdui-col-offset-xs-5">
                     <img class="img-set" id="img-30" src="image/loading.jpg">
                 </div>
             </div>
         </div>
     </div>
-    <div style="vertical-align: bottom;" onclick="loadImage()">
-        <img class="img-set" src="image/control.png">
+    <div class="mdui-row mdui-row-gapless row-set">
+      <div class="mdui-col-xs-6"> 
+        <div style="vertical-align: bottom;" onclick="getScreenshot()">
+          <img class="img-set" src="image/screen-cut.png">
+        </div>
+      </div>
+      <div class="mdui-col-xs-6"> 
+        <div style="vertical-align: bottom;" onclick="loadImage()">
+          <img class="img-set" src="image/control.png">
+        </div>
+      </div>
     </div>
 </div>
 <script type="text/javascript" src="js/jquery.min.js"></script>
