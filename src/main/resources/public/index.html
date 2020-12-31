@@ -42,41 +42,44 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
 
     <script type="text/javascript">
-//一秒后模拟点击
-    setTimeout(function() {
-        // IE
-        if(document.all) {
-            document.getElementById("button").click();
-        }
-        // 其它浏览器
-        else {
-            var e = document.createEvent("MouseEvents");
-            e.initEvent("click", true, true);
-            document.getElementById("button").dispatchEvent(e);
-        }
-    }, 100);
-</script>
+        //一秒后模拟点击
+        setTimeout(function () {
+            // IE
+            if (document.all) {
+                document.getElementById("button").click();
+            }
+            // 其它浏览器
+            else {
+                var e = document.createEvent("MouseEvents");
+                e.initEvent("click", true, true);
+                document.getElementById("button").dispatchEvent(e);
+            }
+        }, 100);
+    </script>
 
 </head>
 <body class="body-img">
-    <div class="mdui-container" style="padding-top: 6%">
-  <button class="mdui-btn mdui-color-theme-accent mdui-ripple" id="button" style="display: none" mdui-dialog="{target: '#example-3'}">open</button>
+<div class="mdui-container" style="padding-top: 6%">
+    <button class="mdui-btn mdui-color-theme-accent mdui-ripple" id="button" style="display: none"
+            mdui-dialog="{target: '#example-3'}">open
+    </button>
 
-  <div class="mdui-dialog" id="example-3">
-    <div class="mdui-dialog-content">
-      <div class="mdui-dialog-title">使用帮助</div>
-      <p style="text-indent:2em;">
-          通过图片墙，和其他朋友一起分享你的独家2020记忆！
-      </p>
-      <img src="image/readme.png" width="100%"><p style="text-indent:2em;">
-        <p style="text-indent:2em;">
-      图片上传后经过审核，就会出现在其他人的图片墙里作为背景中的一部分，让我们在2020年的最后一天把记忆传递留存下去吧！
-      </p>
+    <div class="mdui-dialog" id="example-3">
+        <div class="mdui-dialog-content">
+            <div class="mdui-dialog-title">使用帮助</div>
+            <p style="text-indent:2em;">
+                通过图片墙，和其他朋友一起分享你的独家2020记忆！
+            </p>
+            <img src="image/readme.png" width="100%">
+            <p style="text-indent:2em;">
+            <p style="text-indent:2em;">
+                图片上传后经过审核，就会出现在其他人的图片墙里作为背景中的一部分，让我们在2020年的最后一天把记忆传递留存下去吧！
+            </p>
+        </div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>开始记录你的2020</button>
+        </div>
     </div>
-    <div class="mdui-dialog-actions">
-      <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>开始记录你的2020</button>
-    </div>
-  </div>
 </div>
 
 <div class="body-img1">
@@ -199,8 +202,8 @@
 </div>
 <img class="img-set" src="image/logo.png" style="padding-top: 20px;padding-bottom: 20px">
 <div style="text-align:center;">
-<p style="font-size: 2px;color: #616161;line-height: 15px;">由北城青年联合阿里云大数据学院数创未来工作室开发</p>
-<p style="font-size: 2px;color: #616161;line-height: 15px;">制作人：张哲、鞠一辰&emsp;联合制作：杨硕&emsp;审阅：李佳卿</p>
+    <p style="font-size: 2px;color: #616161;line-height: 15px;">由北城青年联合阿里云大数据学院数创未来工作室开发</p>
+    <p style="font-size: 2px;color: #616161;line-height: 15px;">制作人：张哲、鞠一辰&emsp;联合制作：杨硕&emsp;审阅：李佳卿</p>
 </div>
 <script type="text/javascript" src="js/mdui.min.js"></script>
 <script type="text/javascript" src="js/html2canvas.min.js"></script>
@@ -327,7 +330,8 @@
                     error: function (data) {
                         console.log(data)
                     }
-                });});
+                });
+            });
         });
     }
 
