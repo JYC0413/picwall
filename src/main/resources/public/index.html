@@ -6,10 +6,10 @@
     <title>北城青年陪你一起奔向2021</title>
     <link rel="stylesheet" href="css/mdui.min.css"/>
     <style type="text/css">
+
         .body-img {
-            background: url(image/bg.jpg) no-repeat;
+            background: url(image/bg.jpg) repeat-y;
             background-size: cover;
-            background-attachment: fixed;
         }
 
         .body-img1 {
@@ -38,211 +38,172 @@
             padding-left: 6%;
             line-height: 0;
         }
+
+        .footer {
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding-top: 64px;
+            line-height:0;
+        }
     </style>
     <script type="text/javascript" src="js/jquery.min.js"></script>
-
-    <script type="text/javascript">
-        //一秒后模拟点击
-        setTimeout(function () {
-            // IE
-            if (document.all) {
-                document.getElementById("button").click();
-            }
-            // 其它浏览器
-            else {
-                var e = document.createEvent("MouseEvents");
-                e.initEvent("click", true, true);
-                document.getElementById("button").dispatchEvent(e);
-            }
-        }, 100);
-    </script>
-
+    <script type="text/javascript" src="js/mdui.min.js"></script>
+    <script type="text/javascript" src="js/html2canvas.min.js"></script>
+    <script type="text/javascript" src="js/zz.js"></script>
 </head>
 <body class="body-img">
-<div class="mdui-container" style="padding-top: 6%">
-    <button class="mdui-btn mdui-color-theme-accent mdui-ripple" id="button" style="display: none"
-            mdui-dialog="{target: '#example-3'}">open
-    </button>
-
-    <div class="mdui-dialog" id="example-3">
-        <div class="mdui-dialog-content">
-            <div class="mdui-dialog-title">使用帮助</div>
-            <p style="text-indent:2em;">
-                通过图片墙，和其他朋友一起分享你的独家2020记忆！
-            </p>
-            <img src="image/readme.png" width="100%">
-            <p style="text-indent:2em;">
-            <p style="text-indent:2em;">
-                图片上传后经过审核，就会出现在其他人的图片墙里作为背景中的一部分，让我们在2020年的最后一天把记忆传递留存下去吧！
-            </p>
+<p></p>
+<div id="capture">
+    <div class="body-img1">
+        <img class="img-set" src="image/title.png">
+        <div class="body-img2">
+            <div class="mdui-container">
+                <p></p>
+                <div class="mdui-row mdui-row-gapless row-set" style="padding-top: 9.5%;">
+                    <div class="mdui-col-xs-1 mdui-col-offset-xs-1">
+                        <img class="img-set" id="img-1" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-2" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-3" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1 mdui-col-offset-xs-3">
+                        <img class="img-set" id="img-4" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-5" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-6" src="image/loading.png">
+                    </div>
+                </div>
+                <div class="mdui-row mdui-row-gapless row-set">
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-7" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-8" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-9" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-10" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-11" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1 mdui-col-offset-xs-1">
+                        <img class="img-set" id="img-12" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-13" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-14" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-15" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-16" src="image/loading.png">
+                    </div>
+                </div>
+                <div class="mdui-row mdui-row-gapless row-set">
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-17" src="image/loading.png">
+                        <img class="img-set" id="img-18" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-3">
+                        <img class="img-set" id="img-19" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-3">
+                        <input id="img-input" name="file" type="file" accept="image/*" style="display: none"/>
+                        <label for="img-input" id="img-set-label">
+                            <img class="img-set" id="img-uploaded" src="image/img-upload.jpg">
+                        </label>
+                    </div>
+                    <div class="mdui-col-xs-3">
+                        <img class="img-set" id="img-20" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-21" src="image/loading.png">
+                        <img class="img-set" id="img-22" src="image/loading.png">
+                    </div>
+                </div>
+                <div class="mdui-row mdui-row-gapless row-set">
+                    <div class="mdui-col-xs-1 mdui-col-offset-xs-2">
+                        <img class="img-set" id="img-23" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-24" src="image/loading.png">
+                        <img class="img-set" id="img-25" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-3">
+                        <img class="img-set" id="img-26" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-27" src="image/loading.png">
+                        <img class="img-set" id="img-28" src="image/loading.png">
+                    </div>
+                    <div class="mdui-col-xs-1">
+                        <img class="img-set" id="img-29" src="image/loading.png">
+                    </div>
+                </div>
+                <div class="mdui-row mdui-row-gapless row-set" style="padding-bottom: 8%;">
+                    <div class="mdui-col-xs-1 mdui-col-offset-xs-5">
+                        <img class="img-set" id="img-30" src="image/loading.png">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mdui-dialog-actions">
-            <button class="mdui-btn mdui-ripple" mdui-dialog-confirm>开始记录你的2020</button>
+        <div class="mdui-row mdui-row-gapless row-set">
+            <div class="mdui-col-xs-6">
+                <div style="vertical-align: bottom;" onclick="getScreenshot()">
+                    <img class="img-set no-screenshot" src="image/screen-cut.png">
+                </div>
+            </div>
+            <div class="mdui-col-xs-6">
+                <div style="vertical-align: bottom;" onclick="loadImage()">
+                    <img class="img-set" src="image/control.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mdui-container">
+        <img class="img-set" src="image/logo.png" style="padding-top: 20px;padding-bottom: 20px">
+        <div class="mdui-typo mdui-text-center no-screenshot">
+            <p style="color: #616161;line-height: 15px;">由北城青年联合阿里云大数据学院数创未来工作室开发</p>
+            <p style="color: #616161;line-height: 15px;">制作人：张哲、鞠一辰&emsp;联合制作：杨硕&emsp;审阅：李佳卿</p>
         </div>
     </div>
 </div>
 
-<div class="body-img1">
-    <img class="img-set" src="image/title.png">
-    <div class="body-img2" id="capture">
-        <div class="mdui-container">
-            <p></p>
-            <div class="mdui-row mdui-row-gapless row-set" style="padding-top: 9.5%;">
-                <div class="mdui-col-xs-1 mdui-col-offset-xs-1">
-                    <img class="img-set" id="img-1" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-2" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-3" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1 mdui-col-offset-xs-3">
-                    <img class="img-set" id="img-4" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-5" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-6" src="image/loading.png">
-                </div>
-            </div>
-            <div class="mdui-row mdui-row-gapless row-set">
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-7" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-8" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-9" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-10" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-11" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1 mdui-col-offset-xs-1">
-                    <img class="img-set" id="img-12" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-13" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-14" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-15" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-16" src="image/loading.png">
-                </div>
-            </div>
-            <div class="mdui-row mdui-row-gapless row-set">
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-17" src="image/loading.png">
-                    <img class="img-set" id="img-18" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-3">
-                    <img class="img-set" id="img-19" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-3">
-                    <input id="img-input" name="file" type="file" accept="image/*" style="display: none"/>
-                    <label for="img-input" id="img-set-label">
-                        <img class="img-set" id="img-uploaded" src="image/img-upload.jpg">
-                    </label>
-                </div>
-                <div class="mdui-col-xs-3">
-                    <img class="img-set" id="img-20" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-21" src="image/loading.png">
-                    <img class="img-set" id="img-22" src="image/loading.png">
-                </div>
-            </div>
-            <div class="mdui-row mdui-row-gapless row-set">
-                <div class="mdui-col-xs-1 mdui-col-offset-xs-2">
-                    <img class="img-set" id="img-23" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-24" src="image/loading.png">
-                    <img class="img-set" id="img-25" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-3">
-                    <img class="img-set" id="img-26" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-27" src="image/loading.png">
-                    <img class="img-set" id="img-28" src="image/loading.png">
-                </div>
-                <div class="mdui-col-xs-1">
-                    <img class="img-set" id="img-29" src="image/loading.png">
-                </div>
-            </div>
-            <div class="mdui-row mdui-row-gapless row-set" style="padding-bottom: 8%;">
-                <div class="mdui-col-xs-1 mdui-col-offset-xs-5">
-                    <img class="img-set" id="img-30" src="image/loading.png">
-                </div>
-            </div>
-        </div>
+<div class="footer">
+    <img src="image/bg-footer.jpg" style="width: 100%;">
+</div>
+
+<div class="mdui-dialog" id="dialog-readme">
+    <div class="mdui-dialog-content">
+        <div class="mdui-dialog-title">使用帮助</div>
+        <p>
+            通过图片墙，和其他朋友一起分享你的独家2020记忆！
+        </p>
+        <img src="image/readme.png" width="100%">
+        <p>
+            图片上传后经过审核，就会出现在其他人的图片墙里作为背景中的一部分，让我们在2020年的最后一天把记忆传递留存下去吧！
+        </p>
     </div>
-    <div class="mdui-row mdui-row-gapless row-set">
-        <div class="mdui-col-xs-6">
-            <div style="vertical-align: bottom;" onclick="getScreenshot()">
-                <img class="img-set" src="image/screen-cut.png">
-            </div>
-        </div>
-        <div class="mdui-col-xs-6">
-            <div style="vertical-align: bottom;" onclick="loadImage()">
-                <img class="img-set" src="image/control.png">
-            </div>
-        </div>
+    <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple" mdui-dialog-close>开始记录你的2020</button>
     </div>
 </div>
-<img class="img-set" src="image/logo.png" style="padding-top: 20px;padding-bottom: 20px">
-<div style="text-align:center;">
-    <p style="font-size: 2px;color: #616161;line-height: 15px;">由北城青年联合阿里云大数据学院数创未来工作室开发</p>
-    <p style="font-size: 2px;color: #616161;line-height: 15px;">制作人：张哲、鞠一辰&emsp;联合制作：杨硕&emsp;审阅：李佳卿</p>
-</div>
-<script type="text/javascript" src="js/mdui.min.js"></script>
-<script type="text/javascript" src="js/html2canvas.min.js"></script>
+
 <script type="text/javascript">
     // var $ = mdui.$;
-
-    function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toGMTString();
-        document.cookie = cname + "=" + cvalue + "; " + expires;
-    }
-
-    function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i].trim();
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-
-    var randomDic = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
-    function generateMixed(n) {
-        var res = "";
-        for (var i = 0; i < n; i++) {
-            var id = Math.ceil(Math.random() * 35);
-            res += randomDic[id];
-        }
-        return res;
-    }
-
-    function genSessionKey() {
-        return generateMixed(32)
-    }
 
     function zzInit() {
         if (getCookie("zzsession") === "") {
@@ -250,6 +211,13 @@
         }
         if (getCookie("oldimg") !== "") {
             loadImageToBox("#img-uploaded", getCookie("oldimg"))
+        }
+        if (getCookie("zz201231firstrun") === "") {
+            setCookie("zz201231firstrun", "1", 1)
+            setTimeout(function () {
+                var readmeDialog = new mdui.Dialog('#dialog-readme');
+                readmeDialog.open()
+            }, 500);
         }
     }
 
@@ -305,9 +273,36 @@
         });
     }
 
+    function snackBar(msg, timeout){
+        mdui.snackbar({
+            message: msg,
+            position: 'top',
+            timeout: timeout
+        });
+    }
+
+    function hideNoScreenshotElement() {
+        var elems = document.getElementsByClassName("no-screenshot")
+        for (var t of elems) {
+            // t.style.visibility = 'hidden';
+            t.style.display = 'none';
+        }
+    }
+
+    function showNoScreenshotElement() {
+        var elems = document.getElementsByClassName("no-screenshot")
+        for (var t of elems) {
+            // t.style.visibility = 'visible';
+            t.style.display = 'block';
+        }
+    }
+
     function getScreenshot() {
-        html2canvas(document.getElementById('capture')).then(function (canvas) {
+        hideNoScreenshotElement()
+        html2canvas(document.getElementById("capture")).then(function (canvas) {
+            snackBar("截图完成，正在处理，请稍后", 1000)
             canvas.toBlob(function (blob) {
+                showNoScreenshotElement()
                 // var url = URL.createObjectURL(blob);
                 let imgfile = new File([blob], 'imgfile.jpg', {type: 'image/jpg'})
                 let formData = new FormData()
